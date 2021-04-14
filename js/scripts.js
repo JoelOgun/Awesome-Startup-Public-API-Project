@@ -9,6 +9,7 @@ const searchInput = document.getElementById("search-input");
 const seaarchSubmit = document.getElementById("search-submit");
 
 // Display Gallery
+/*
 const galleryDiv = document.getElementById("gallery");
 let galleryCard = `<div class="card">
 <div class="card-img-container">
@@ -21,9 +22,10 @@ let galleryCard = `<div class="card">
 </div>
 </div>`;
 galleryDiv.insertAdjacentHTML("beforeend", galleryCard);
+*/
 
 //Modal
-
+/* 
 let modalDiv = ` <div class="modal-container">
 <div class="modal">
 <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -39,3 +41,50 @@ let modalDiv = ` <div class="modal-container">
 </div>
 </div>`;
 galleryDiv.insertAdjacentHTML("afterend", modalDiv);
+*/
+window.onload = () => {
+  randomUserGenerator();
+};
+// Function to fetch data from random user api
+
+const randomUserGenerator = () => {
+  fetch("https://randomuser.me/api/?nat=us")
+    .then((response) => response.json())
+    .then((data) => showRandomuserData(data));
+};
+//
+let showRandomuserData = function showRandomuserData(randomUser) {
+  const galleryDiv = document.getElementById("gallery");
+  const galleryCard = `
+    <div class="card">
+<div class="card-img-container">
+<img class="card-img" src= '${randomUser.results[0].picture.large}' alt="profile picture">
+</div>
+<div class="card-info-container">
+<h3 id="name" class="card-name cap">${randomUser.results[0].name.first} ${randomUser.results[0].name.last}</h3>
+<p class="card-text">${randomUser.results[0].email}</p>
+<p class="card-text cap">${randomUser.results[0].location.city}, ${randomUser.results[0].location.state}</p>
+</div>
+</div>`;
+  galleryDiv.insertAdjacentHTML("beforeend", galleryCard);
+};
+
+// Helper Function
+/* 
+showRandomuserData = (randomUser) => {
+  document.querySelector(
+    ".card-img"
+  ).src = `${randomUser.results[0].picture.large}`;
+  document.getElementById(
+    "name"
+  ).innerText = `${randomUser.results[0].name.first} ${randomUser.results[0].name.last}`;
+
+  document.querySelector(
+    ".card-text"
+  ).innerText = `${randomUser.results[0].email}`;
+
+  document.querySelector(
+    ".card-text cap"
+  ).innerText = `${randomUser.results[0].location.city} , ${randomUser.results[0].location.state}`;
+};
+*/
