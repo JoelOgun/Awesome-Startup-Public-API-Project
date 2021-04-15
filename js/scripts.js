@@ -21,9 +21,10 @@ const randomUserGenerator = () => {
   )
     .then((response) => response.json())
     .then((data) => {
-      showRandomuserData(data.results);
-      cardSelectModalOpen(data);
-      createModal(data);
+      const employees = data.results;
+      showRandomuserData(employees);
+      cardSelectModalOpen(employees);
+      createModal();
     });
 };
 
@@ -52,6 +53,7 @@ function cardSelectModalOpen(data) {
   for (let i = 0; i < cards.length; i++) {
     cards[i].addEventListener("click", (e) => {
       document.querySelector(".modal-container").style.display = "block";
+      infoModal(data[i]);
     });
   }
 }
@@ -71,6 +73,25 @@ function createModal() {
   closeBtn.addEventListener("click", () => {
     modalContainer.style.display = "none";
   });
+}
+
+// ModalInfo
+function infoModal(data) {
+  let modalInfo = ` 
+<div class="modal-info-container">
+<img class="modal-img" src='${data.picture.large}' alt="profile picture">
+<h3 id="name" class="modal-name cap">${data.name.first} ${data.name.last}</h3>
+<p class="modal-text">${data.email}</p>
+<p class="modal-text cap">${data.location.city}</p>
+<hr>
+<p class="modal-text">${data.cell}</p>
+<p class="modal-text"> ${data.street}.,  ${data.location.city}, ${data.location.state} 
+${data.location.postcode}</p>
+<p class="modal-text">Birthday: ${data.dob.date}</p>
+</div>
+`;
+  const modal = document.querySelector(".modal");
+  modal.insertAdjacentHTML("afterbegin", modalInfo);
 }
 
 /*
