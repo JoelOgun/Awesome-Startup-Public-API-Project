@@ -87,6 +87,11 @@ function createModal() {
 
 // ModalInfo
 function infoModal(data) {
+  const date = new Date(`${data.dob.date}`);
+  const month = date.getMonth();
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const mmddyyyy = `${month}/${day}/${year}`;
   let modalInfo = ` 
 <div class="modal-info-container">
 <img class="modal-img" src='${data.picture.large}' alt="profile picture">
@@ -97,7 +102,7 @@ function infoModal(data) {
 <p class="modal-text">${data.cell}</p>
 <p class="modal-text"> ${data.location.street.number} ${data.location.street.name}.,  ${data.location.city}, ${data.location.state} 
 ${data.location.postcode}</p>
-<p class="modal-text">Birthday: ${data.dob.date}</p>
+<p class="modal-text">Birthday: ${mmddyyyy}</p>
 </div>
 `;
   const modal = document.querySelector(".modal");
