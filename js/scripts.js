@@ -95,7 +95,7 @@ function infoModal(data) {
 <p class="modal-text cap">${data.location.city}</p>
 <hr>
 <p class="modal-text">${data.cell}</p>
-<p class="modal-text"> ${data.street}.,  ${data.location.city}, ${data.location.state} 
+<p class="modal-text"> ${data.location.street.number} ${data.location.street.name}.,  ${data.location.city}, ${data.location.state} 
 ${data.location.postcode}</p>
 <p class="modal-text">Birthday: ${data.dob.date}</p>
 </div>
