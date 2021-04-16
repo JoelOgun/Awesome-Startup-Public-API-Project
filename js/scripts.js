@@ -64,14 +64,24 @@ function createModal() {
 <div class="modal">
 <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
 
+<div class="modal-btn-container">
+<button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+<button type="button" id="modal-next" class="modal-next btn">Next</button>
+</div>
+
 </div>`;
   galleryDiv.insertAdjacentHTML("afterend", modalDiv);
   const modalContainer = document.querySelector(".modal-container");
   let closeBtn = document.getElementById("modal-close-btn");
+  const nextBtn = document.getElementById("modal-next");
+  const prevBtn = document.getElementById("modal-prev");
+
+  nextBtn.addEventListener;
 
   modalContainer.style.display = "none";
   closeBtn.addEventListener("click", () => {
     modalContainer.style.display = "none";
+    document.querySelector(".modal-info-container").remove();
   });
 }
 
@@ -94,41 +104,10 @@ ${data.location.postcode}</p>
   modal.insertAdjacentHTML("afterbegin", modalInfo);
 }
 
-/*
-let modalInfo = ` 
-<div class="modal-info-container">
-<img class="modal-img" src='${randomUser.picture.large}' alt="profile picture">
-<h3 id="name" class="modal-name cap">${randomUser.name.first} ${randomUser.name.last}</h3>
-<p class="modal-text">${randomUser.email}</p>
-<p class="modal-text cap">${randomUser.location.city}</p>
-<hr>
-<p class="modal-text">${randomUser.cell}</p>
-<p class="modal-text"> ${randomUser.street}.,  ${randomUser.location.city}, ${randomUser.location.state} 
-${randomUser.location.postcode}</p>
-<p class="modal-text">Birthday: ${randomUser.dob.date}</p>
-</div>
-`;
-*/
-
-/*
-let modalOpen = document.querySelector(".card-info-container");
-console.log(modalOpen);
-let modal = document.querySelector(".modal");
-let closeBtn = document.getElementById("modal-close-btn");
-console.log(modal);
-*/
-/*
-gallery.onclick = function () {
-  modal.style.display = "block";
-};
-
-closeBtn.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-*/
-//closeBtn.onclick = function () {
-// modal.style.display = "none";
-//};
+function toggleModal() {
+  const nextBtn = document.getElementById("modal-next");
+  const prevBtn = document.getElementById("modal-prev");
+}
 /*
 window.onclick = function (e) {
   if (e.target == modal) {
