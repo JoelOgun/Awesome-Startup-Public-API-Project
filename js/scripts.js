@@ -75,26 +75,6 @@ function createModal(data) {
 
   modalContainer.style.display = "none";
 
-  /*
-  prevBtn.addEventListener("click", () => {
-    if (i === 0) {
-      prevBtn.disabled = true;
-      prevBtn.style.display = "none";
-    } else {
-      prevBtn.disabled = false;
-    }
-  });
-
-  nextBtn.addEventListener("click", () => {
-    for (let i = 0; i < employees.length; i++) {
-      if (i === 11) {
-        nextBtn.disabled = true;
-      } else {
-        nextBtn.disabled = false;
-      }
-    }
-  });
-*/
   closeBtn.addEventListener("click", () => {
     modalContainer.style.display = "none";
     document.querySelector(".modal-info-container").remove();
@@ -151,6 +131,27 @@ function toggleModal(data, i) {
       }
     }
   });
+
+  /*
+  prevBtn.addEventListener("click", () => {
+    if (i === 0) {
+      prevBtn.disabled = true;
+      prevBtn.style.display = "none";
+    } else {
+      prevBtn.disabled = false;
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    for (let i = 0; i < employees.length; i++) {
+      if (i === 11) {
+        nextBtn.disabled = true;
+      } else {
+        nextBtn.disabled = false;
+      }
+    }
+  });
+*/
 }
 
 window.onload = () => {
