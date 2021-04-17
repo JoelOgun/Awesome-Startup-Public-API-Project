@@ -10,9 +10,6 @@ const seaarchSubmit = document.getElementById("search-submit");
 
 // show 12 item on page
 
-window.onload = () => {
-  randomUserGenerator();
-};
 // Function to fetch data from random user api
 const galleryDiv = document.getElementById("gallery");
 const randomUserGenerator = () => {
@@ -25,6 +22,7 @@ const randomUserGenerator = () => {
       showRandomuserData(employees);
       cardSelectModalOpen(employees);
       createModal();
+      toggleModal(employees);
     });
 };
 
@@ -49,6 +47,7 @@ function showRandomuserData(data) {
 // Click a Card the Modal Opens up
 function cardSelectModalOpen(data) {
   const cards = document.querySelectorAll(".card");
+
   console.log(cards);
   for (let i = 0; i < cards.length; i++) {
     cards[i].addEventListener("click", (e) => {
@@ -59,7 +58,7 @@ function cardSelectModalOpen(data) {
 }
 
 //Modal
-function createModal() {
+function createModal(data) {
   let modalDiv = ` <div class="modal-container">
 <div class="modal">
 <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -73,12 +72,29 @@ function createModal() {
   galleryDiv.insertAdjacentHTML("afterend", modalDiv);
   const modalContainer = document.querySelector(".modal-container");
   let closeBtn = document.getElementById("modal-close-btn");
-  const nextBtn = document.getElementById("modal-next");
-  const prevBtn = document.getElementById("modal-prev");
-
-  nextBtn.addEventListener;
 
   modalContainer.style.display = "none";
+
+  /*
+  prevBtn.addEventListener("click", () => {
+    if (i === 0) {
+      prevBtn.disabled = true;
+      prevBtn.style.display = "none";
+    } else {
+      prevBtn.disabled = false;
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    for (let i = 0; i < employees.length; i++) {
+      if (i === 11) {
+        nextBtn.disabled = true;
+      } else {
+        nextBtn.disabled = false;
+      }
+    }
+  });
+*/
   closeBtn.addEventListener("click", () => {
     modalContainer.style.display = "none";
     document.querySelector(".modal-info-container").remove();
@@ -109,10 +125,39 @@ ${data.location.postcode}</p>
   modal.insertAdjacentHTML("afterbegin", modalInfo);
 }
 
-function toggleModal() {
+function toggleModal(data, i) {
   const nextBtn = document.getElementById("modal-next");
   const prevBtn = document.getElementById("modal-prev");
+  const cards = document.querySelectorAll(".card");
+  const modal = document.querySelector(".modal");
+
+  prevBtn.addEventListener("click", () => {
+    i--;
+    if (i === 0) {
+      modalPrev.style.display = "none";
+    } else {
+      infoModal(data[i]);
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    for (let i = 0; i < 12; i++) {
+      if (cards[i] === 11) {
+        nextBtn.style.display = "none";
+        nextBtn.disabled = true;
+      } else {
+        nextBtn.style.display = "block";
+        nextBtn.disabled = false;
+      }
+    }
+  });
 }
+
+window.onload = () => {
+  randomUserGenerator();
+  cardSelectModalOpen();
+  createModal();
+};
 /*
 window.onclick = function (e) {
   if (e.target == modal) {
