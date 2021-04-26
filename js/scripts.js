@@ -8,53 +8,53 @@ searchContainer.insertAdjacentHTML("beforeend", searchForm);
 const searchInput = document.getElementById("search-input");
 const seaarchSubmit = document.getElementById("search-submit");
 
-// show 12 item on page
-
 // Function to fetch data from random user api
 const galleryDiv = document.getElementById("gallery");
-const randomUserGenerator = () => {
+function fetchData(employees) {
   fetch(
     "https://randomuser.me/api/?results=12&nat=us&inc=name,email,location,picture,cell,dob,nat"
   )
     .then((response) => response.json())
     .then((data) => {
       const employees = data.results;
+      console.log(employees);
       showRandomuserData(employees);
       cardSelectModalOpen(employees);
       createModal();
       toggleModal(employees);
     });
-};
-
+}
+// Display basic information on each employee
 function showRandomuserData(data) {
-  data.forEach(function showInd(randomUser, i) {
+  data.forEach((employee) => {
     //const galleryDiv = document.getElementById("gallery");
     let galleryCard = `
     <div class="card">
 <div class="card-img-container">
-<img class="card-img" src= '${randomUser.picture.large}' alt="profile picture">
+<img class="card-img" src= '${employee.picture.large}' alt="profile picture">
 </div>
 <div class="card-info-container">
-<h3 id="name" class="card-name cap">${randomUser.name.first} ${randomUser.name.last}</h3>
-<p class="card-text">${randomUser.email}</p>
-<p class="card-text cap">${randomUser.location.city}, ${randomUser.location.state}</p>
+<h3 id="name" class="card-name cap">${employee.name.first} ${employee.name.last}</h3>
+<p class="card-text">${employee.email}</p>
+<p class="card-text cap">${employee.location.city}, ${employee.location.state}</p>
 </div>
 </div>`;
 
     galleryDiv.insertAdjacentHTML("beforeend", galleryCard);
   });
 }
+
 // Click a Card the Modal Opens up
 function cardSelectModalOpen(data) {
   const cards = document.querySelectorAll(".card");
 
-  console.log(cards);
   for (let i = 0; i < cards.length; i++) {
     cards[i].addEventListener("click", (e) => {
       document.querySelector(".modal-container").style.display = "block";
       infoModal(data[i]);
     });
   }
+  console.log(cards);
 }
 
 //Modal
@@ -83,6 +83,7 @@ function createModal(data) {
 
 // ModalInfo
 function infoModal(data) {
+  console.log(data);
   const date = new Date(`${data.dob.date}`);
   const month = date.getMonth();
   const day = date.getDate();
@@ -104,58 +105,61 @@ ${data.location.postcode}</p>
   const modal = document.querySelector(".modal");
   modal.insertAdjacentHTML("afterbegin", modalInfo);
 }
-
-function toggleModal(data, i) {
+// Next Prev Button for modal
+function toggleModal(data, index) {
   const nextBtn = document.getElementById("modal-next");
   const prevBtn = document.getElementById("modal-prev");
   const cards = document.querySelectorAll(".card");
   const modal = document.querySelector(".modal");
 
-  prevBtn.addEventListener("click", () => {
-    i--;
-    if (i === 0) {
-      modalPrev.style.display = "none";
-    } else {
-      infoModal(data[i]);
-    }
-  });
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].addEventListener("click", () => {
+      index = data.indexOf(data[i]);
+      if (index === 0) {
+        prevBtn.style.display = "none";
+      }
+    });
+  }
 
   nextBtn.addEventListener("click", () => {
-    for (let i = 0; i < 12; i++) {
-      if (cards[i] === 11) {
-        nextBtn.style.display = "none";
-        nextBtn.disabled = true;
-      } else {
-        nextBtn.style.display = "block";
-        nextBtn.disabled = false;
-      }
+    index++;
+    if (index <= data.length) {
+      modal.firstElementChild.remove();
+      infoModal(data[index]);
+    } else if (index >= data.length) {
+      index = -1;
+    }
+
+    //removes next button if it reaches last employee
+    if (index === data.length - 1) {
+      nextBtn.style.display = "none";
+    } else if (index < data.length) {
+      prevBtn.style.display = "block";
     }
   });
 
-  /*
   prevBtn.addEventListener("click", () => {
-    if (i === 0) {
-      prevBtn.disabled = true;
+    index--;
+    if (index <= -1) {
+      index = -1;
+    } else if (index <= data.length) {
+      modal.firstElementChild.remove();
+      infoModal(data[index]);
+      console.log(index);
+    }
+
+    //removes prev button if it reaches first employee
+    if (index < data.length) {
+      nextBtn.style.display = "block";
+    }
+    if (index === 0) {
       prevBtn.style.display = "none";
-    } else {
-      prevBtn.disabled = false;
     }
   });
-
-  nextBtn.addEventListener("click", () => {
-    for (let i = 0; i < employees.length; i++) {
-      if (i === 11) {
-        nextBtn.disabled = true;
-      } else {
-        nextBtn.disabled = false;
-      }
-    }
-  });
-*/
 }
 
 window.onload = () => {
-  randomUserGenerator();
+  fetchData();
   cardSelectModalOpen();
   createModal();
 };
