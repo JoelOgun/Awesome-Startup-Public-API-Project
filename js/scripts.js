@@ -6,7 +6,7 @@ let searchForm = `<form action="#" method="get">
  </form>`;
 searchContainer.insertAdjacentHTML("beforeend", searchForm);
 const searchInput = document.getElementById("search-input");
-const seaarchSubmit = document.getElementById("search-submit");
+const searchSubmit = document.getElementById("search-submit");
 
 // Function to fetch data from random user api
 const galleryDiv = document.getElementById("gallery");
@@ -157,6 +157,74 @@ function toggleModal(data, index) {
     }
   });
 }
+
+// Creates a div to notify user if the their search finds no matches... Adds styling to noMatch div... appeneds noMatch div to gallery.
+
+const noMatch = document.createElement("div");
+
+noMatch.textContent = "Sorry. No matches found. Try a new Search.";
+noMatch.style.fontFamily = "'Comic Sans MS', cursive, sans-serif";
+noMatch.style.textShadow = "3px 3px #c250c2";
+noMatch.style.fontSize = "xx-large";
+noMatch.style.color = "#e1f1f0";
+
+noMatch.style.display = "none";
+
+gallery.append(noMatch);
+
+// stores input in input var
+const input = document.querySelector("input");
+
+// `filterEmployees` function filters through employees and displays employee with matching name value.
+// if there are no matches a message is displayed to make user aware that no matches were found.
+
+function filterEmployees() {
+  //selects all elements with `card` class and stores them into `card` variable.
+  const card = document.querySelectorAll(".card");
+
+  // creates an array with elements stored in `card` variable, stores array into `names` variable.
+  const names = Array.from(card);
+
+  // grabs the value of `search-input`, converts that value to upper case then stores the converted value inside `searchValue` variable.
+  let searchValue = document.getElementById("search-input").value.toUpperCase();
+
+  // creates array and stores it inside of `searchResults` variable.
+  const searchResults = [];
+
+  // for loop iterates through the elements in `names` array.
+  for (let i = 0; i < names.length; i++) {
+    // hides element by setting it's display to `none`.
+    card[i].style.display = "none";
+
+    // grabs the first element of live element with an `h3` tagname and stores it into our `h3` variable.
+    let h3 = card[i].getElementsByTagName("h3")[0];
+
+    // if our `h3` variable's innerHTML, when converted to uppercase, includes our `searchValue` value:
+    if (h3.innerHTML.toUpperCase().includes(searchValue)) {
+      // push the live `card` element to our `searchResults` array.
+      searchResults.push(card[i]);
+
+      // shows element by setting it's display to `block`.
+      card[i].style.display = "block";
+    }
+
+    // if the length of our `searchResults` array is equal to 0:
+    if (searchResults.length === 0) {
+      //display `noMatch` div (which lets the user know that no employee name matches were found).
+      noMatch.style.display = "block";
+
+      //otherwise:
+    } else {
+      //hide `noMatch` div by setting display to `none`.
+      noMatch.style.display = "none";
+    }
+  }
+}
+
+// stores search submit button in `searchBtn` var, adds event listeners to search input & button. Both call filterEmployees function
+const searchBtn = document.querySelector(".search-submit");
+input.addEventListener("keyup", filterEmployees);
+searchBtn.addEventListener("click", filterEmployees);
 
 window.onload = () => {
   fetchData();
